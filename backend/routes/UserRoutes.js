@@ -13,7 +13,7 @@ let Items = [
     startTime: "00:00:00",
     Difference: "00:15:00",
     timesList: ["00:00:00"],
-    values: [null],
+    values: [Math.floor(Math.random() * 100 + 1)],
     Iter: 96,
     autoFill: true,
   },
@@ -23,17 +23,17 @@ let Items = [
     startTime: "00:00:00",
     Difference: "00:30:00",
     timesList: ["00:00:00"],
-    values: [null],
-    Iter: 4,
-    autoFill: true,
+    values: [Math.floor(Math.random() * 100 + 1)],
+    Iter: 48,
+    autoFill: false,
   },
   {
     id: 2,
-    title: "RDL Mumbai",
+    title: "RDL Kolkata",
     startTime: "00:00:00",
-    Difference: "00:30:00",
+    Difference: "01:00:00",
     timesList: ["00:00:00"],
-    values: [null],
+    values: [Math.floor(Math.random() * 100 + 1)],
     Iter: 24,
     autoFill: true,
   },
@@ -43,9 +43,9 @@ let Items = [
     startTime: "19:00:00",
     Difference: "24:00:00",
     timesList: ["19:00:00"],
-    values: [null],
-    Iter: 2,
-    autoFill: true,
+    values: [Math.floor(Math.random() * 100 + 1)],
+    Iter: 1,
+    autoFill: false,
   },
   {
     id: 4,
@@ -53,8 +53,7 @@ let Items = [
     startTime: "18:15:00",
     Difference: "24:00:00",
     timesList: ["18:15:00"],
-    values: [null],
-    values: [null],
+    values: [Math.floor(Math.random() * 100 + 1)],
     Iter: 1,
     autoFill: false,
   },
@@ -64,9 +63,9 @@ let Items = [
     startTime: "21:00:00",
     Difference: "24:00:00",
     timesList: ["21:00:00"],
-    values: [null],
+    values: [Math.floor(Math.random() * 100 + 1)],
     Iter: 1,
-    autoFill: false,
+    autoFill: true,
   },
   {
     id: 6,
@@ -74,9 +73,9 @@ let Items = [
     startTime: "00:15:00",
     Difference: "24:00:00",
     timesList: ["00:15:00"],
-    values: [null],
+    values: [Math.floor(Math.random() * 100 + 1)],
     Iter: 1,
-    autoFill: false,
+    autoFill: true,
   },
   {
     id: 7,
@@ -84,18 +83,16 @@ let Items = [
     startTime: "05:15:00",
     Difference: "24:00:00",
     timesList: ["05:15:00"],
-    values: [null],
+    values: [Math.floor(Math.random() * 100 + 1)],
     Iter: 1,
-    autoFill: false,
+    autoFill: true,
   },
 ];
 
 const auth = async (req, res, next) => {
   try {
     res.set("Access-Control-Allow-Origin", "*");
-    //console.log(req.body.token)
     const token = req.body.token;
-    //console.log(token)
     const verifyUser = jwt.verify(
       token,
       "wedsvcbs1$sdr12@rtresadsaafaste(qr2r%1334res#dfz!f^sar&3wq*"
@@ -106,230 +103,6 @@ const auth = async (req, res, next) => {
     res.send({ error: "invalid token" });
   }
 };
-
-async function fetchResultDataByDate(date) {
-  let p = date.split("/");
-  if (p[1].length == 1) {
-    p[1] = "0" + p[1];
-  }
-  if (p[2].length == 1) {
-    p[2] = "0" + p[2];
-  }
-  date = p[0] + "/" + p[1] + "/" + p[2];
-  let result = await data.findOne({ date: date });
-  // if(result==null){
-  // setTimelist2();
-  // result = await data.findOne({'date':date})
-  // }
-  // console.log(result)
-  return result;
-  // .then((result)=>{
-  //   console.log("no error")
-  //   console.log("my date is",result.date)
-  //   return result;
-  // })
-  // .catch((error)=>{
-  //   console.log("error is here",error)
-  //   myData = {"error":"error"}
-  //   return myData
-  // })
-}
-
-// to change the all cards timing just change oldtime and difference and iter
-count = 0;
-
-function setTimelist2(date) {
-  let old = JSON.parse(JSON.stringify(Items));
-  // console.log(old)
-  //console.log("from time setting3")
-  for (let i = 0; i < old.length; i++) {
-    //console.log("from time setting2")
-    let addTime = old[i]["Difference"];
-    let Oldtime = old[i]["timesList"][old[i]["timesList"].length - 1];
-
-    if (old[i].autoFill == true) {
-      old[i]["values"][0] = Math.floor(Math.random() * 100 + 1);
-    }
-
-    for (let ii = 0; ii < old[i].Iter - 1; ii++) {
-      // console.log("=>",count)
-      // count++;
-      // console.log("getting old");
-      // console.log(old[i]['timesList'][0])
-      // console.log(old[i]['timesList'].length)
-      Oldtime = old[i]["timesList"][old[i]["timesList"].length - 1];
-      let hh = Oldtime[0] + Oldtime[1];
-      let mm = Oldtime[3] + Oldtime[4];
-      let ss = Oldtime[6] + Oldtime[7];
-
-      let future = moment()
-        .utcOffset("+05:30")
-        .hour(hh)
-        .minute(mm)
-        .second(ss)
-        .add("hour", addTime[0] + addTime[1])
-        .add("minute", addTime[3] + addTime[4])
-        .add("second", addTime[6] + addTime[7])
-        .format("HH:mm:ss");
-      // console.log(Oldtime)
-      // console.log(addTime)
-      // console.log("future time is ",future)
-      old[i]["timesList"].push(future);
-      old[i]["values"].push(
-        Math.floor(old[i].autoFill ? Math.random() * 100 + 1 : null)
-      );
-      // $set(old[i]['values'],old[i]['values'].length-1,-1);
-    }
-  }
-
-  data.findOne({ date: date }, function (err, result) {
-    if (err) {
-      // console.log(err)
-      return null;
-    }
-    // console.log("date ",date," value ==>",result===null)
-    if (result == null) {
-      const dbData = new data({ date: date, logs: old });
-      dbData
-        .save()
-        .then((res) => {
-          //console.log("data saved in db >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-          // console.log(res)
-        })
-        .catch((err) => {
-          // console.log('facing error in fetching information from db')
-        });
-      // console.log("my result is",);
-      // return {'date':date,'logs':old};
-    }
-  });
-  const TotalData = new data({ date: date }, function (err, result) {
-    // console.log(result)
-    // console.log("not")
-  });
-}
-
-function middleOfTheNight() {
-  var now = new Date();
-  var night = new Date(
-    now.getFullYear(),
-    now.getMonth(),
-    now.getDate() + 1, // the next day, ...
-    0,
-    0,
-    0 // ...at 00:00:00 hours
-  );
-
-  var msToMidnight = night.getTime() - now.getTime();
-  setTimeout(function () {
-    let today = new Date();
-
-    for (let i = 0; i < 31; i++) {
-      setTimeout(() => {
-        let date = new Date(today);
-        date.setDate(date.getDate() + i);
-        date = date.toLocaleDateString("en-US");
-
-        let year = date.split("/")[2];
-        let month = date.split("/")[0];
-        let day = date.split("/")[1];
-
-        if (month < 10) {
-          month = String("0" + String(month));
-        }
-        if (day < 10) {
-          day = String("0" + String(day));
-        }
-        date = String(year + "/" + month + "/" + day);
-        setTimelist2(date);
-      }, 100 * i);
-    }
-    // },10)
-  }, msToMidnight);
-}
-
-// middleOfTheNight()
-
-const datafind = (res, name, date) => {
-  name.findOne({ date: date }, function (err1, result) {
-    return result;
-  });
-};
-
-router.post("/auth", auth, async (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
-  //console.log("it is not authenticated yet please check it from backend");
-
-  res.json({ data: "getting response from the server" });
-});
-
-router.get("/", (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
-  res.send("Hello World for API");
-});
-
-router.get("/getSharingData", (req, res) => {
-  let whatsapp = {
-    url: "https://play.google.com/store/apps/details?id=org.rdl.results.app",
-    message: "install RDL Results app from google playstore ",
-  };
-  res.status(200).json(whatsapp);
-});
-
-router.post("/login", async (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
-  // console.log(req.body.email._value);
-  // console.log(req.body.password._value);
-  const user = await user_data.findOne({
-    email: req.body.email._value,
-    password: req.body.password._value,
-  });
-  if (user) {
-    const token = jwt.sign(
-      {
-        email: req.body.email,
-        password: req.body.password,
-      },
-      "wedsvcbs1$sdr12@rtresadsaafaste(qr2r%1334res#dfz!f^sar&3wq*"
-    );
-    return res.json({ status: "ok", user: true, jwt: token });
-  } else {
-    return res.json({ status: "error", user: "data not found" });
-  }
-  res.status(200).json({ data: "received data perfectly" });
-});
-
-router.get("/record", (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
-  const { name, date } = req.body;
-  if (!date || !name) {
-    res.status(422).json({ error: "insufficient data" });
-  }
-
-  try {
-    //console.log(name)
-    if (name == "gurgaon_ncr") {
-      return datafind(res, gurgaon_ncr, date);
-    } else if (name == "delhi_ncr") {
-      return datafind(res, delhi_ncr, date);
-    } else if (name == "ghaziabad_ncr") {
-      return datafind(res, ghaziabad_ncr, date);
-    } else if (name == "noida_ncr") {
-      return datafind(res, noida_ncr, date);
-    } else if (name == "faridabad") {
-      return datafind(res, faridabad, date);
-    } else if (name == "ghaziabad") {
-      return datafind(res, ghaziabad, date);
-    } else if (name == "gali") {
-      return datafind(res, gali, date);
-    } else {
-      // if(name == 'deshawar'){
-      return datafind(res, deshawar, date);
-    }
-  } catch (e) {
-    //console.log'("==> ",e);
-  }
-});
 
 const tConvert = (time) => {
   // Check correct time format and split into components
@@ -426,12 +199,10 @@ const fetchDatabeforeDateAndTime = (res, date) => {
                   newItem.values.push("Coming soon...");
                   condition = true;
                 }
-                //console.log'("value is not allowed to send")
               }
             });
 
             if (condition == false) {
-              // console.log("let's insert a value")
               newItem.timesList.push(
                 "Tomorrow " + tConvert(newItem.timesList[0])
               );
@@ -440,7 +211,6 @@ const fetchDatabeforeDateAndTime = (res, date) => {
 
             data.push(newItem);
           });
-          // console.log("data should be sending ",data);
           res.status(200).json({ logs: data });
         }
       })
@@ -452,12 +222,162 @@ const fetchDatabeforeDateAndTime = (res, date) => {
   }
 };
 
-router.post("/getClientSideData", (req, res) => {
-  res.set("Access-Control-Allow-Origin", "*");
-  //console.log'("will give you data");
-  //console.log'(req.body.date)
-  fetchDatabeforeDateAndTime(res, req.body.date);
-});
+async function fetchResultDataByDate(date) {
+  let p = date.split("/");
+  if (p[1].length == 1) {
+    p[1] = "0" + p[1];
+  }
+  if (p[2].length == 1) {
+    p[2] = "0" + p[2];
+  }
+  date = p[0] + "/" + p[1] + "/" + p[2];
+  let result = await data.findOne({ date: date });
+
+  return result;
+}
+
+// to change the all cards timing just change oldtime and difference and iter
+count = 0;
+
+function setTimelist2(date) {
+  let old = JSON.parse(JSON.stringify(Items));
+
+  for (let i = 0; i < old.length; i++) {
+    let addTime = old[i]["Difference"];
+    let Oldtime = old[i]["timesList"][old[i]["timesList"].length - 1];
+
+    for (let ii = 0; ii < old[i].Iter - 1; ii++) {
+      Oldtime = old[i]["timesList"][old[i]["timesList"].length - 1];
+      let hh = Oldtime[0] + Oldtime[1];
+      let mm = Oldtime[3] + Oldtime[4];
+      let ss = Oldtime[6] + Oldtime[7];
+
+      let future = moment()
+        .utcOffset("+05:30")
+        .hour(hh)
+        .minute(mm)
+        .second(ss)
+        .add("hour", addTime[0] + addTime[1])
+        .add("minute", addTime[3] + addTime[4])
+        .add("second", addTime[6] + addTime[7])
+        .format("HH:mm:ss");
+      old[i]["timesList"].push(future);
+      old[i]["values"].push(
+        Math.floor(old[i].autoFill ? Math.random() * 100 + 1 : null)
+      );
+      // $set(old[i]['values'],old[i]['values'].length-1,-1);
+    }
+  }
+
+  data.findOne({ date: date }, function (err, result) {
+    if (err) {
+      return null;
+    }
+    if (result == null) {
+      const dbData = new data({ date: date, logs: old });
+      dbData
+        .save()
+        .then((res) => {
+          console.log("data saved in db");
+        })
+        .catch((err) => {
+          console.log("facing error in fetching information from db");
+        });
+    }
+  });
+
+  const TotalData = new data({ date: date }, function (err, result) {
+    // console.log(result)
+    // console.log("not")
+  });
+}
+
+function middleOfTheNight() {
+  setTimeout(() => {
+    let date = moment();
+    const oneYearLater = currentDate.add(1, "years");
+    console.log("==========>", oneYearLater);
+    setTimelist2(oneYearLater);
+  }, 3600000 * 24);
+  // var now = new Date();
+  // var night = new Date(
+  //   now.getFullYear(),
+  //   now.getMonth(),
+  //   now.getDate() + 1, // the next day, ...
+  //   0,
+  //   0,
+  //   0 // ...at 00:00:00 hours
+  // );
+  // var msToMidnight = night.getTime() - now.getTime();
+  // setTimeout(function () {
+  // let today = new Date();
+  //   for (let i = 0; i < 1000; i++) {
+  //     // date = '2022/01/01'
+  //     setTimeout(() => {
+  //       let date = new Date(2022, 0, 1);
+  //       date.setDate(date.getDate() + i);
+  //       date = date.toLocaleDateString("en-US");
+  //       let year = date.split("/")[2];
+  //       let month = date.split("/")[0];
+  //       let day = date.split("/")[1];
+  //       if (month < 10) {
+  //         month = String("0" + String(month));
+  //       }
+  //       if (day < 10) {
+  //         day = String("0" + String(day));
+  //       }
+  //       date = String(year + "/" + month + "/" + day);
+  //     }, 100 * i);
+  //   }
+  // }, 100);
+}
+
+middleOfTheNight();
+
+const datafind = (res, name, date) => {
+  name.findOne({ date: date }, function (err1, result) {
+    return result;
+  });
+};
+
+const datasave = (res, name, date, logs) => {
+  //console.log'("in data find folder")
+  name.findOne({ date: date }, function (err1, result) {
+    if (err1) {
+      //console.log'(err1)
+      res
+        .status(505)
+        .json({ error: `facing error from database Error 1 ,${err1}` });
+    }
+    // //console.log'(result)
+    if (result !== null) {
+      const update = { logs: logs };
+      const filter = { date: date };
+      name
+        .findOneAndUpdate(date, update)
+        .then(() => {
+          res.status(200).json({ result: "data updated sucessfully" });
+        })
+        .catch((err2) => {
+          res
+            .status(500)
+            .json({ error: `facing error from database Error 1 ,${err2}` });
+        });
+    } else {
+      const data = new name({ date, logs });
+      data
+        .save()
+        .then(() => {
+          res.status(200).json("data is saved sucessfully");
+        })
+        .catch((err3) => {
+          res
+            .status(500)
+            .json({ error: `facing error from database Error 1 ,${err3}` });
+        });
+    }
+  });
+};
 
 const fetchDatabeforeTime = async (res, previousDate, date) => {
   const date1 = moment().tz("asia/kolkata").format("YYYY/MM/DD");
@@ -548,6 +468,89 @@ const fetchDatabeforeTime = async (res, previousDate, date) => {
     });
 };
 
+router.post("/auth", auth, async (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  //console.log("it is not authenticated yet please check it from backend");
+
+  res.json({ data: "getting response from the server" });
+});
+
+// working
+router.get("/", (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.send("Hello World for API for now");
+});
+
+// working
+router.get("/getSharingData", (req, res) => {
+  let whatsapp = {
+    url: "https://play.google.com/store/apps/details?id=org.rdl.results.app",
+    message: "install RDL Results app from google playstore ",
+  };
+  res.status(200).json(whatsapp);
+});
+
+router.post("/login", async (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  console.log("my req body is", req?.body);
+  // console.log(req.body.email._value);
+  // console.log(req.body.password._value);
+  const user = await user_data.findOne({
+    email: req.body.email,
+    password: req.body.password,
+  });
+  if (user) {
+    const token = jwt.sign(
+      {
+        email: req.body.email,
+        password: req.body.password,
+      },
+      "wedsvcbs1$sdr12@rtresadsaafaste(qr2r%1334res#dfz!f^sar&3wq*"
+    );
+    return res.json({ status: "ok", user: true, jwt: token });
+  } else {
+    return res.json({ status: "error", user: "data not found" });
+  }
+  res.status(200).json({ data: "received data perfectly" });
+});
+
+router.get("/record", (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  const { name, date } = req.body;
+  if (!date || !name) {
+    res.status(422).json({ error: "insufficient data" });
+  }
+
+  try {
+    //console.log(name)
+    if (name == "gurgaon_ncr") {
+      return datafind(res, gurgaon_ncr, date);
+    } else if (name == "delhi_ncr") {
+      return datafind(res, delhi_ncr, date);
+    } else if (name == "ghaziabad_ncr") {
+      return datafind(res, ghaziabad_ncr, date);
+    } else if (name == "noida_ncr") {
+      return datafind(res, noida_ncr, date);
+    } else if (name == "faridabad") {
+      return datafind(res, faridabad, date);
+    } else if (name == "ghaziabad") {
+      return datafind(res, ghaziabad, date);
+    } else if (name == "gali") {
+      return datafind(res, gali, date);
+    } else {
+      // if(name == 'deshawar'){
+      return datafind(res, deshawar, date);
+    }
+  } catch (e) {
+    //console.log'("==> ",e);
+  }
+});
+
+router.post("/getClientSideData", (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  fetchDatabeforeDateAndTime(res, req.body.date);
+});
+
 router.post("/getClientCurrentData", (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
   var last = moment()
@@ -559,45 +562,6 @@ router.post("/getClientCurrentData", (req, res) => {
 
   fetchDatabeforeTime(res, last, req.body.date);
 });
-
-const datasave = (res, name, date, logs) => {
-  //console.log'("in data find folder")
-  name.findOne({ date: date }, function (err1, result) {
-    if (err1) {
-      //console.log'(err1)
-      res
-        .status(505)
-        .json({ error: `facing error from database Error 1 ,${err1}` });
-    }
-    // //console.log'(result)
-    if (result !== null) {
-      const update = { logs: logs };
-      const filter = { date: date };
-      name
-        .findOneAndUpdate(date, update)
-        .then(() => {
-          res.status(200).json({ result: "data updated sucessfully" });
-        })
-        .catch((err2) => {
-          res
-            .status(500)
-            .json({ error: `facing error from database Error 1 ,${err2}` });
-        });
-    } else {
-      const data = new name({ date, logs });
-      data
-        .save()
-        .then(() => {
-          res.status(200).json("data is saved sucessfully");
-        })
-        .catch((err3) => {
-          res
-            .status(500)
-            .json({ error: `facing error from database Error 1 ,${err3}` });
-        });
-    }
-  });
-};
 
 router.post("/save", (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
@@ -732,22 +696,6 @@ router.post("/getUpcomingResultDetails", auth, async (req, res) => {
     .catch((err) => {
       //console.log'("my error is",err)
     });
-
-  // .then(res=>{
-  //   console.log("finally I received my data",res)
-  //   console.log("my data is",myData)
-  //   console.log("data is catched")
-  //
-  //   res.status(200).json(JSON.stringify(myData))
-
-  // })
-  // .catch(err=>{
-  //   console.log("facing error in result")
-  //   myData = {"status":"error"}
-  //   res.status(200).json(JSON.stringify(myData))
-  // })
-  // console.log(JSON.stringify(data))
-  // res.status(200).json({'status':"success"})
 });
 
 module.exports = router;

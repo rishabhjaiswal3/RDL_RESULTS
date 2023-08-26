@@ -114,15 +114,15 @@ count = 0;
 function setTimelist2(date) {
   let old = JSON.parse(JSON.stringify(Items));
   // console.log(old)
-  console.log("from time setting3");
+
   for (let i = 0; i < old.length; i++) {
     console.log("from time setting2");
     let addTime = old[i]["Difference"];
     let Oldtime = old[i]["timesList"][old[i]["timesList"].length - 1];
 
-    if (old[i].autoFill == true) {
-      old[i]["values"][0] = Math.floor(Math.random() * 100 + 1);
-    }
+    // if (old[i].autoFill == true) {
+    //   old[i]["values"][0] = Math.floor(Math.random() * 100 + 1);
+    // }
 
     for (let ii = 0; ii < old[i].Iter - 1; ii++) {
       // console.log("=>",count)
@@ -147,9 +147,7 @@ function setTimelist2(date) {
       // console.log(addTime)
       // console.log("future time is ",future)
       old[i]["timesList"].push(future);
-      old[i]["values"].push(
-        Math.floor(old[i].autoFill ? Math.random() * 100 + 1 : null)
-      );
+      old[i]["values"].push(Math.floor(Math.random() * 100 + 1));
       // $set(old[i]['values'],old[i]['values'].length-1,-1);
     }
   }
@@ -202,9 +200,9 @@ function middleOfTheNight() {
 
   var msToMidnight = night.getTime() - now.getTime();
   setTimeout(function () {
-    let today = new Date();
+    // let today = new Date();
 
-    for (let i = 0; i < 7300; i++) {
+    for (let i = 0; i < 1000; i++) {
       // date = '2022/01/01'
       setTimeout(() => {
         let date = new Date(2022, 0, 1);
