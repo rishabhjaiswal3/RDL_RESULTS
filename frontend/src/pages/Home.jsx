@@ -24,18 +24,18 @@ const Home = () => {
         {Url:one7},
         {Url:one8}
     ];
-    const apiKey = process.env.REACT_APP_URL || '/api';
+    const apiKey = process.env.REACT_APP_URL;
     const [cardsData,setCardsData] = useState([]);
 
     const getCardData = async (date) => {
-        axios.post(apiKey + "/getClientSideData", { date: date }).then((response) => {
+        axios.post(apiKey + "/getClientCurrentData", { date: date }).then((response) => {
+            console.log("my cards data is",response?.data?.logs)
             setCardsData(response?.data?.logs)
         })
     }
 
     useEffect(()=>{
         const today = moment();
-        // getCardData('2022/01/01');
         getCardData(today.format('YYYY/MM/DD'));
     },[])
 
