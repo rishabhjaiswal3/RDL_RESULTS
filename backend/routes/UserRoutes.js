@@ -199,10 +199,12 @@ const fetchDatabeforeDateAndTime = (res, date) => {
                   newItem.values.push("Coming soon...");
                   condition = true;
                 }
+                //console.log'("value is not allowed to send")
               }
             });
 
             if (condition == false) {
+              // console.log("let's insert a value")
               newItem.timesList.push(
                 "Tomorrow " + tConvert(newItem.timesList[0])
               );
@@ -211,6 +213,7 @@ const fetchDatabeforeDateAndTime = (res, date) => {
 
             data.push(newItem);
           });
+          // console.log("data should be sending ",data);
           res.status(200).json({ logs: data });
         }
       })
@@ -221,6 +224,191 @@ const fetchDatabeforeDateAndTime = (res, date) => {
     //console.log'('just filter the data aaccording to time because date is same')
   }
 };
+
+const fetchDatabeforeTime = async (res, previousDate, date) => {
+  const date1 = moment().tz("asia/kolkata").format("YYYY/MM/DD");
+  // new Date(yyyy,mm,dd); // today
+  // const date2 = new Date( Number(date.split('/')[0]),Number(date.split('/')[1])-1,Number(date.split('/')[2]))
+  const date2 = date;
+
+  //console.log'(date1,date2)
+  //console.log'("situation let's get data from here")
+  const data = [];
+  // console.log("I am going to send data for now");
+  fetchResultDataByDate(previousDate)
+    .then((result) => {
+      //console.log'(result,previousDate)
+      if (result == null) {
+        // console.log("yesterday data is null sending null")
+        //console.log'('result is null');
+        res.send(null);
+      } else {
+        result.logs.forEach((log) => {
+          let newItem = JSON.parse(JSON.stringify(log));
+          newItem.timesList = [];
+          newItem.values = [];
+          newItem.timesList.push(log.timesList[log.timesList.length - 1]);
+          newItem.values.push(log.values[log.values.length - 1]);
+          data.push(newItem);
+        });
+        // console.log("yesterday data is saved to send,perfectly working before it")
+
+        fetchResultDataByDate(date)
+          .then((result) => {
+            if (result == null) {
+              // console.log("not found anything of date",date)
+            } else {
+              //console.log'("got the result of current date")
+              result.logs.forEach((log, logIndex) => {
+                let ISTTime = moment().tz("asia/kolkata").format("HH:mm:ss");
+                let hour = moment().tz("asia/kolkata").hours();
+                let min = moment().tz("asia/kolkata").minutes();
+                let sec = moment().tz("asia/kolkata").seconds();
+
+                let [year1, month1, date1] = date.split("/");
+
+                let p1 = new Date(year1, month1 - 1, date1, +hour, +min, +sec);
+
+                let condition = false;
+                log.timesList.forEach((time, index) => {
+                  let [hour1, min2, sec2] = time.split(":");
+                  let p2 = new Date(
+                    year1,
+                    month1 - 1,
+                    date1,
+                    +hour1,
+                    +min2,
+                    +sec2
+                  );
+                  if (p1.getTime() >= p2.getTime()) {
+                    data[logIndex].timesList.push(time);
+                    data[logIndex].values.push(log.values[index]);
+                  } else {
+                    if (condition == false) {
+                      data[logIndex].timesList.push(time);
+                      data[logIndex].values.push("Coming soon...");
+                      condition = true;
+                    }
+                  }
+                });
+                if (condition == false) {
+                  data[logIndex].timesList.push(data[logIndex].startTime);
+                  data[logIndex].values.push("Coming soon...");
+                }
+                //console.log'(data[logIndex].timesList)
+                //console.log'(data[logIndex].values)
+              });
+              // console.log("sending logs from here of today")
+              res.status(200).json({ logs: data });
+            }
+          })
+          .catch((err) => {
+            // console.log("my error is 2",err)
+          });
+      }
+    })
+    .catch((err) => {
+      //console.log'("my error is 2",err)
+      res.send(null);
+      // return null;
+    });
+};
+// const fetchDatabeforeDateAndTime = (res, date) => {
+//   // let today = new Date();
+//   var today = moment().tz("asia/kolkata").format("YYYY/MM/DD");
+
+//   let [yyyy, mm, dd] = today.split("/");
+//   //console.log'("sended date is",String(oldDate));
+
+//   // console.log(today,"    ===>",date)
+//   const date1 = new Date(yyyy, mm - 1, dd); // today
+//   const date2 = new Date(
+//     Number(date.split("/")[0]),
+//     Number(date.split("/")[1]) - 1,
+//     Number(date.split("/")[2])
+//   );
+//   //console.log'(date1,date2)
+//   if (date1 < date2) {
+//     // console.log("not allowed to send data")
+//     //console.log'("client will not be able to see future date data")
+//     res.send(null);
+//   } else if (date1 > date2) {
+//     // console.log(date1, date2)
+//     // console.log("send whole data outdated previous date")
+//     //console.log'("sitution 2");
+//     fetchResultDataByDate(date)
+//       .then((result) => {
+//         if (result == null) {
+//           res.status(200).json(null);
+//         } else {
+//           res.status(200).json(result);
+//         }
+//       })
+//       .catch((err) => {
+//         //console.log'("my error is",err)
+//       });
+//   } else {
+//     // console.log("today date data is should be send");
+//     //console.log'("situation 3")
+//     const data = [];
+//     fetchResultDataByDate(date)
+//       .then((result) => {
+//         if (result == null) {
+//           // console.log("data should be sending ",result);
+//           res.status(200).json(null);
+//         } else {
+//           result.logs.forEach((log) => {
+//             let newItem = JSON.parse(JSON.stringify(log));
+
+//             newItem.timesList = [];
+//             newItem.values = [];
+//             let hour = moment().tz("asia/kolkata").hours();
+//             let min = moment().tz("asia/kolkata").minutes();
+//             let sec = moment().tz("asia/kolkata").seconds();
+
+//             let [year1, month1, date1] = date.split("/");
+
+//             // console.log(hour," : ",min + " : "+sec)
+//             let p1 = new Date(year1, month1 - 1, date1, +hour, +min, +sec);
+
+//             // let currentTime = hour+":"+min+":"+sec;
+
+//             let condition = false;
+
+//             log.timesList.forEach((time, index) => {
+//               let [hour1, min2, sec2] = time.split(":");
+//               let p2 = new Date(year1, month1 - 1, date1, +hour1, +min2, +sec2);
+//               if (p1.getTime() >= p2.getTime()) {
+//                 newItem.timesList.push(time);
+//                 newItem.values.push(log.values[index]);
+//               } else {
+//                 if (condition == false) {
+//                   newItem.timesList.push(time);
+//                   newItem.values.push("Coming soon...");
+//                   condition = true;
+//                 }
+//               }
+//             });
+
+//             if (condition == false) {
+//               newItem.timesList.push(
+//                 "Tomorrow " + tConvert(newItem.timesList[0])
+//               );
+//               newItem.values.push("Coming soon...");
+//             }
+
+//             data.push(newItem);
+//           });
+//           res.status(200).json({ logs: data });
+//         }
+//       })
+//       .catch((err) => {
+//         //console.log'("my error is 2",err)
+//       });
+
+//     //console.log'('just filter the data aaccording to time because date is same')
+//   }
+// };
 
 async function fetchResultDataByDate(date) {
   let p = date.split("/");
@@ -379,94 +567,94 @@ const datasave = (res, name, date, logs) => {
   });
 };
 
-const fetchDatabeforeTime = async (res, previousDate, date) => {
-  const date1 = moment().tz("asia/kolkata").format("YYYY/MM/DD");
-  // new Date(yyyy,mm,dd); // today
-  // const date2 = new Date( Number(date.split('/')[0]),Number(date.split('/')[1])-1,Number(date.split('/')[2]))
-  const date2 = date;
+// const fetchDatabeforeTime = async (res, previousDate, date) => {
+//   const date1 = moment().tz("asia/kolkata").format("YYYY/MM/DD");
+//   // new Date(yyyy,mm,dd); // today
+//   // const date2 = new Date( Number(date.split('/')[0]),Number(date.split('/')[1])-1,Number(date.split('/')[2]))
+//   const date2 = date;
 
-  //console.log'(date1,date2)
-  //console.log'("situation let's get data from here")
-  const data = [];
-  // console.log("I am going to send data for now");
-  fetchResultDataByDate(previousDate)
-    .then((result) => {
-      //console.log'(result,previousDate)
-      if (result == null) {
-        // console.log("yesterday data is null sending null")
-        //console.log'('result is null');
-        res.send(null);
-      } else {
-        result.logs.forEach((log) => {
-          let newItem = JSON.parse(JSON.stringify(log));
-          newItem.timesList = [];
-          newItem.values = [];
-          newItem.timesList.push(log.timesList[log.timesList.length - 1]);
-          newItem.values.push(log.values[log.values.length - 1]);
-          data.push(newItem);
-        });
-        // console.log("yesterday data is saved to send,perfectly working before it")
+//   //console.log'(date1,date2)
+//   //console.log'("situation let's get data from here")
+//   const data = [];
+//   // console.log("I am going to send data for now");
+//   fetchResultDataByDate(previousDate)
+//     .then((result) => {
+//       //console.log'(result,previousDate)
+//       if (result == null) {
+//         // console.log("yesterday data is null sending null")
+//         //console.log'('result is null');
+//         res.send(null);
+//       } else {
+//         result.logs.forEach((log) => {
+//           let newItem = JSON.parse(JSON.stringify(log));
+//           newItem.timesList = [];
+//           newItem.values = [];
+//           newItem.timesList.push(log.timesList[log.timesList.length - 1]);
+//           newItem.values.push(log.values[log.values.length - 1]);
+//           data.push(newItem);
+//         });
+//         // console.log("yesterday data is saved to send,perfectly working before it")
 
-        fetchResultDataByDate(date)
-          .then((result) => {
-            if (result == null) {
-              // console.log("not found anything of date",date)
-            } else {
-              //console.log'("got the result of current date")
-              result.logs.forEach((log, logIndex) => {
-                let ISTTime = moment().tz("asia/kolkata").format("HH:mm:ss");
-                let hour = moment().tz("asia/kolkata").hours();
-                let min = moment().tz("asia/kolkata").minutes();
-                let sec = moment().tz("asia/kolkata").seconds();
+//         fetchResultDataByDate(date)
+//           .then((result) => {
+//             if (result == null) {
+//               // console.log("not found anything of date",date)
+//             } else {
+//               //console.log'("got the result of current date")
+//               result.logs.forEach((log, logIndex) => {
+//                 let ISTTime = moment().tz("asia/kolkata").format("HH:mm:ss");
+//                 let hour = moment().tz("asia/kolkata").hours();
+//                 let min = moment().tz("asia/kolkata").minutes();
+//                 let sec = moment().tz("asia/kolkata").seconds();
 
-                let [year1, month1, date1] = date.split("/");
+//                 let [year1, month1, date1] = date.split("/");
 
-                let p1 = new Date(year1, month1 - 1, date1, +hour, +min, +sec);
+//                 let p1 = new Date(year1, month1 - 1, date1, +hour, +min, +sec);
 
-                let condition = false;
-                log.timesList.forEach((time, index) => {
-                  let [hour1, min2, sec2] = time.split(":");
-                  let p2 = new Date(
-                    year1,
-                    month1 - 1,
-                    date1,
-                    +hour1,
-                    +min2,
-                    +sec2
-                  );
-                  if (p1.getTime() >= p2.getTime()) {
-                    data[logIndex].timesList.push(time);
-                    data[logIndex].values.push(log.values[index]);
-                  } else {
-                    if (condition == false) {
-                      data[logIndex].timesList.push(time);
-                      data[logIndex].values.push("Coming soon...");
-                      condition = true;
-                    }
-                  }
-                });
-                if (condition == false) {
-                  data[logIndex].timesList.push(data[logIndex].startTime);
-                  data[logIndex].values.push("Coming soon...");
-                }
-                //console.log'(data[logIndex].timesList)
-                //console.log'(data[logIndex].values)
-              });
-              // console.log("sending logs from here of today")
-              res.status(200).json({ logs: data });
-            }
-          })
-          .catch((err) => {
-            // console.log("my error is 2",err)
-          });
-      }
-    })
-    .catch((err) => {
-      //console.log'("my error is 2",err)
-      res.send(null);
-      // return null;
-    });
-};
+//                 let condition = false;
+//                 log.timesList.forEach((time, index) => {
+//                   let [hour1, min2, sec2] = time.split(":");
+//                   let p2 = new Date(
+//                     year1,
+//                     month1 - 1,
+//                     date1,
+//                     +hour1,
+//                     +min2,
+//                     +sec2
+//                   );
+//                   if (p1.getTime() >= p2.getTime()) {
+//                     data[logIndex].timesList.push(time);
+//                     data[logIndex].values.push(log.values[index]);
+//                   } else {
+//                     if (condition == false) {
+//                       data[logIndex].timesList.push(time);
+//                       data[logIndex].values.push("Coming soon...");
+//                       condition = true;
+//                     }
+//                   }
+//                 });
+//                 if (condition == false) {
+//                   data[logIndex].timesList.push(data[logIndex].startTime);
+//                   data[logIndex].values.push("Coming soon...");
+//                 }
+//                 //console.log'(data[logIndex].timesList)
+//                 //console.log'(data[logIndex].values)
+//               });
+//               // console.log("sending logs from here of today")
+//               res.status(200).json({ logs: data });
+//             }
+//           })
+//           .catch((err) => {
+//             // console.log("my error is 2",err)
+//           });
+//       }
+//     })
+//     .catch((err) => {
+//       //console.log'("my error is 2",err)
+//       res.send(null);
+//       // return null;
+//     });
+// };
 
 router.post("/auth", auth, async (req, res) => {
   res.set("Access-Control-Allow-Origin", "*");
@@ -656,30 +844,6 @@ router.post("/changeTimeOfCity", async (req, res) => {
       });
     })
     .catch(() => {});
-  // changed ocde
-  //old code
-  // data.findOne({'date':newDate})
-  //   .then(async (result)=>{
-  //     // //console.log'("no error",result)
-  //     result.logs.forEach((log)=>{
-  //       if(log.title == city){
-  //           //console.log'(log)
-  //           log.startTime = newTime;
-  //           log.timesList = [newTime];
-  //       }
-  //     })
-  //     await data.findOneAndReplace({'date':newDate},{'date':result.date,'logs':result.logs})
-  //       .then((resul)=>{
-  //           res.send(resul)
-  //         //console.log'('data is updated successfully')
-  //       })
-  //       .catch(err=>{//console.log'("facing error in updating data of timing")})
-  //   })
-  //   .catch(err=>{
-  //     res.send("error","facing error in changing time")
-  //     //console.log'("facing error in changing time",err)
-  //   })
-  // })
 });
 
 router.post("/getUpcomingResultDetails", auth, async (req, res) => {
