@@ -15,15 +15,31 @@ import one8 from '../assets/one8.jpeg';
 const Home = () => {
 
     const images = [
-        {Url:one1},
-        {Url:one2},
-        {Url:one3},
-        {Url:one4},
-        {Url:one5},        
-        {Url:one6},
-        {Url:one7},
-        {Url:one8}
-    ];
+        {
+          Url: "https://rdlresults.s3.ap-south-1.amazonaws.com/one1.jpeg",
+        },
+        {
+          Url: "https://rdlresults.s3.ap-south-1.amazonaws.com/one2.jpeg",
+        },
+        {
+            Url: "https://rdlresults.s3.ap-south-1.amazonaws.com/one3.jpeg",
+          },
+          {
+            Url: "https://rdlresults.s3.ap-south-1.amazonaws.com/one4.jpeg",
+          },
+          {
+            Url: "https://rdlresults.s3.ap-south-1.amazonaws.com/one5.jpeg",
+          },
+          {
+            Url: "https://rdlresults.s3.ap-south-1.amazonaws.com/one6.jpeg",
+          },
+          {
+              Url: "https://rdlresults.s3.ap-south-1.amazonaws.com/one7.jpeg",
+            },
+            {
+              Url: "https://rdlresults.s3.ap-south-1.amazonaws.com/one8.jpeg",
+            },
+      ];
     const apiKey = process.env.REACT_APP_URL;
     const [cardsData,setCardsData] = useState([]);
 

@@ -432,10 +432,16 @@ function setTimelist2(date) {
 
   for (let i = 0; i < old.length; i++) {
     let addTime = old[i]["Difference"];
-    let Oldtime = old[i]["timesList"][old[i]["timesList"].length - 1];
+    let Oldtime =
+      old[i]["timesList"].length > 0
+        ? old[i]["timesList"][old[i]["timesList"].length - 1]
+        : "00:00:00";
 
     for (let ii = 0; ii < old[i].Iter - 1; ii++) {
-      Oldtime = old[i]["timesList"][old[i]["timesList"].length - 1];
+      Oldtime =
+        old[i]["timesList"].length > 0
+          ? old[i]["timesList"][old[i]["timesList"].length - 1]
+          : "00:00:00";
       let hh = Oldtime[0] + Oldtime[1];
       let mm = Oldtime[3] + Oldtime[4];
       let ss = Oldtime[6] + Oldtime[7];
@@ -793,7 +799,7 @@ router.post("/updateUpcomingResults", (req, res) => {
         { date: result.date, logs: result.logs }
       )
       .then((resul) => {
-        res.send(resul);
+        res.send(req?.body?.logs);
         //console.log'('data is updated successfully')
       })
       .catch((err) => {

@@ -118,19 +118,25 @@ function setTimelist2(date) {
   for (let i = 0; i < old.length; i++) {
     console.log("from time setting2");
     let addTime = old[i]["Difference"];
-    let Oldtime = old[i]["timesList"][old[i]["timesList"].length - 1];
+    let Oldtime =
+      old[i]["timesList"].length > 0
+        ? old[i]["timesList"][old[i]["timesList"].length - 1]
+        : "00:00:00";
 
     // if (old[i].autoFill == true) {
     //   old[i]["values"][0] = Math.floor(Math.random() * 100 + 1);
     // }
 
-    for (let ii = 0; ii < old[i].Iter - 1; ii++) {
+    for (let ii = 0; ii < old[i].Iter; ii++) {
       // console.log("=>",count)
       // count++;
       // console.log("getting old");
       // console.log(old[i]['timesList'][0])
       // console.log(old[i]['timesList'].length)
-      Oldtime = old[i]["timesList"][old[i]["timesList"].length - 1];
+      Oldtime =
+        old[i]["timesList"].length > 0
+          ? old[i]["timesList"][old[i]["timesList"].length - 1]
+          : "00:00:00";
       let hh = Oldtime[0] + Oldtime[1];
       let mm = Oldtime[3] + Oldtime[4];
       let ss = Oldtime[6] + Oldtime[7];
@@ -202,7 +208,7 @@ function middleOfTheNight() {
   setTimeout(function () {
     // let today = new Date();
 
-    for (let i = 0; i < 1000; i++) {
+    for (let i = 0; i < 10000; i++) {
       // date = '2022/01/01'
       setTimeout(() => {
         let date = new Date(2022, 0, 1);

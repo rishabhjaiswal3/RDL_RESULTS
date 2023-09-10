@@ -1,23 +1,18 @@
-import logo from "./assets/Icon.png";
-import { useEffect } from "react";
-import axios from "axios";
-import "./App.css";
 import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 function App() {
-  useEffect(() => {
-    const apiKey = process.env.REACT_APP_URL;
-
-    axios.get(apiKey).then((response) => {
-      console.log("api 1 :- ", response);
-    });
-
-    console.log("====>", apiKey);
-  }, []);
-
   return (
-    <div className="App">
-      <Home />
-    </div>
+    <Router>
+      <div>
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

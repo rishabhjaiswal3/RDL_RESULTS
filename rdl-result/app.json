@@ -1,0 +1,43 @@
+{
+  "expo": {
+    "name": "rdl-result",
+    "slug": "rdl-result",
+    "version": "1.0.0",
+    "scheme": "rdlresultscheme",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/icon1.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#007201"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.rdlresult"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router"
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "030ee54c-7ee7-4990-94f3-6ec97b7cae4b"
+      }
+    }
+  }
+}
