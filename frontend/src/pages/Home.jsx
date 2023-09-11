@@ -3,14 +3,6 @@ import axios from 'axios'
 import moment from 'moment';
 import DataCard from '../components/DataCard';
 import { Grid } from '@mui/material';
-import one1 from '../assets/one1.jpeg';
-import one2 from '../assets/one2.jpeg';
-import one3 from '../assets/one3.jpeg';
-import one4 from '../assets/one4.jpeg';
-import one5 from '../assets/one5.jpeg';
-import one6 from '../assets/one6.jpeg';
-import one7 from '../assets/one7.jpeg';
-import one8 from '../assets/one8.jpeg';
 
 const Home = () => {
 
