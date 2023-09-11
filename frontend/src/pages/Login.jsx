@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { Container, Paper, Typography, TextField, Button } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import axios from 'axios';
-import { AirlineSeatIndividualSuiteSharp } from '@mui/icons-material';
 import { Navigate } from 'react-router-dom';
 
 function Login() {

@@ -32,17 +32,18 @@ const Home = () => {
               Url: "https://rdlresults.s3.ap-south-1.amazonaws.com/one8.jpeg",
             },
       ];
-    const apiKey = process.env.REACT_APP_URL;
     const [cardsData,setCardsData] = useState([]);
 
-    const getCardData = async (date) => {
-        axios.post(apiKey + "/getClientCurrentData", { date: date }).then((response) => {
-            console.log("my cards data is",response?.data?.logs)
-            setCardsData(response?.data?.logs)
-        })
-    }
-
+    
     useEffect(()=>{
+        const apiKey = process.env.REACT_APP_URL;
+        const getCardData = async (date) => {
+          axios.post(apiKey + "/getClientCurrentData", { date: date }).then((response) => {
+              console.log("my cards data is",response?.data?.logs)
+              setCardsData(response?.data?.logs)
+          })
+      }
+
         const today = moment();
         getCardData(today.format('YYYY/MM/DD'));
     },[])

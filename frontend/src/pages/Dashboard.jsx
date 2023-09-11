@@ -21,17 +21,16 @@ const Dashboard = () => {
      }
 
 
-    const apiKey = process.env.REACT_APP_URL;
-    const token = localStorage.getItem("token");
-    const config  = {
-        headers: {
-            'authorization': `Bearer ${token}`,
-            'Accept' : 'application/json',
-            'Content-Type': 'application/json',
-        }
-    }
-
     useEffect(()=>{
+        const apiKey = process.env.REACT_APP_URL;
+        const token = localStorage.getItem("token");
+        const config  = {
+            headers: {
+                'authorization': `Bearer ${token}`,
+                'Accept' : 'application/json',
+                'Content-Type': 'application/json',
+            }
+        }
         axios.post(apiKey+'/getUpcomingResultDetails',{'date':date,'token':token},config).then((res)=>{
             setData(res?.data?.logs)
         })
@@ -42,7 +41,15 @@ const Dashboard = () => {
 
     const setDataInDB = () => {
         try{
-
+            const apiKey = process.env.REACT_APP_URL;
+            const token = localStorage.getItem("token");
+            const config  = {
+                headers: {
+                    'authorization': `Bearer ${token}`,
+                    'Accept' : 'application/json',
+                    'Content-Type': 'application/json',
+                }
+            }
             axios.post(apiKey+'/updateUpcomingResults',{'date':date,'token':token,'logs':data},config).then((res)=>{
                 setData(res?.data?.logs)
                 
