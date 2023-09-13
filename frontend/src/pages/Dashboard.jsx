@@ -51,7 +51,8 @@ const Dashboard = () => {
                 }
             }
             axios.post(apiKey+'/updateUpcomingResults',{'date':date,'token':token,'logs':data},config).then((res)=>{
-                setData(res?.data?.logs)
+                console.log("my response is",res?.data);
+                setData(res?.data)
                 
                 console.log("my response of updaing data is",res);
             })
@@ -62,9 +63,9 @@ const Dashboard = () => {
         catch(e){
             console.log("my error is",e)
         }finally{
-            setTimeout((
+            setTimeout(() => {
                 reset()
-            ),100)
+              }, 100);
         }
     } 
 

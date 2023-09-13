@@ -1,5 +1,6 @@
 import { Drawer } from "expo-router/drawer";
 import Header from "../component/Header";
+import { useState, useEffect } from "react";
 import { View, Text, Pressable, Image, TouchableOpacity } from "react-native";
 import City from "./city";
 export function CustomDrawerContent({ navigation, items }) {
@@ -76,6 +77,8 @@ export function CustomDrawerContent({ navigation, items }) {
 }
 
 export default function Layout() {
+  const [key, setKey] = useState(0);
+
   return (
     <Drawer drawerContent={(props) => <CustomDrawerContent {...props} />}>
       <Drawer.Screen
@@ -83,7 +86,7 @@ export default function Layout() {
         options={{
           drawerLabel: "Home",
           title: "Home",
-          header: () => <Header />,
+          header: () => <Header Key={key} updateKey={setKey} />,
         }}
       ></Drawer.Screen>
       <Drawer.Screen
@@ -91,7 +94,7 @@ export default function Layout() {
         options={{
           drawerLabel: "City",
           title: "City",
-          header: () => <Header />,
+          header: () => <Header Key={key} updateKey={setKey} />,
         }}
       ></Drawer.Screen>
     </Drawer>
