@@ -23,7 +23,6 @@ function Login() {
         console.log("my login data result is",response?.data?.user)
         if(response?.data?.user){
           setIsAuth(true);
-          alert('h')
           localStorage.setItem('token',response?.data?.jwt)
         }
         // console.log('my local storage is',localStorage.getItem('token'))
