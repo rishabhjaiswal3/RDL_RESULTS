@@ -7,7 +7,7 @@ import axios from "axios";
 export default function Home() {
   const fontScale = PixelRatio.getFontScale();
   const getFontSize = (size) => size / fontScale;
-  const apiKey = "https://rdl-result.com/api";
+  const apiKey = "http://rdl-result.com/api";
   const images = [
     {
       Url: "https://rdlresults.s3.ap-south-1.amazonaws.com/one1.jpeg",

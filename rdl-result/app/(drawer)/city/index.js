@@ -54,7 +54,7 @@ const City = ({ route }) => {
   };
 
   const getCardData = () => {
-    const apiKey = "https://rdl-result.com/api";
+    const apiKey = "http://rdl-result.com/api";
     console.log(
       "date before calling api ================================================",
       currentDate,

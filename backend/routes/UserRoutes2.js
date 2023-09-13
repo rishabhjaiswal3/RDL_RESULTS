@@ -11,8 +11,8 @@ let Items = [
     title: "RDL Delhi",
     startTime: "00:00:00",
     Difference: "00:15:00",
-    timesList: ["00:00:00"],
-    values: [Math.floor(Math.random() * 100 + 1)],
+    timesList: [],
+    values: [],
     Iter: 96,
     autoFill: true,
   },
@@ -21,8 +21,8 @@ let Items = [
     title: "RDL Mumbai",
     startTime: "00:00:00",
     Difference: "00:30:00",
-    timesList: ["00:00:00"],
-    values: [Math.floor(Math.random() * 100 + 1)],
+    timesList: [],
+    values: [],
     Iter: 48,
     autoFill: false,
   },
@@ -31,8 +31,8 @@ let Items = [
     title: "RDL Kolkata",
     startTime: "00:00:00",
     Difference: "01:00:00",
-    timesList: ["00:00:00"],
-    values: [Math.floor(Math.random() * 100 + 1)],
+    timesList: [],
+    values: [],
     Iter: 24,
     autoFill: true,
   },
@@ -41,8 +41,8 @@ let Items = [
     title: "RDL Haryana",
     startTime: "19:00:00",
     Difference: "24:00:00",
-    timesList: ["19:00:00"],
-    values: [Math.floor(Math.random() * 100 + 1)],
+    timesList: [],
+    values: [],
     Iter: 1,
     autoFill: false,
   },
@@ -51,8 +51,8 @@ let Items = [
     title: "Faridabad",
     startTime: "18:15:00",
     Difference: "24:00:00",
-    timesList: ["18:15:00"],
-    values: [Math.floor(Math.random() * 100 + 1)],
+    timesList: [],
+    values: [],
     Iter: 1,
     autoFill: false,
   },
@@ -61,8 +61,8 @@ let Items = [
     title: "Ghaziabad",
     startTime: "21:00:00",
     Difference: "24:00:00",
-    timesList: ["21:00:00"],
-    values: [Math.floor(Math.random() * 100 + 1)],
+    timesList: [],
+    values: [],
     Iter: 1,
     autoFill: true,
   },
@@ -71,8 +71,8 @@ let Items = [
     title: "Gali",
     startTime: "00:15:00",
     Difference: "24:00:00",
-    timesList: ["00:15:00"],
-    values: [Math.floor(Math.random() * 100 + 1)],
+    timesList: [],
+    values: [],
     Iter: 1,
     autoFill: true,
   },
@@ -81,8 +81,8 @@ let Items = [
     title: "Deshawar",
     startTime: "05:15:00",
     Difference: "24:00:00",
-    timesList: ["05:15:00"],
-    values: [Math.floor(Math.random() * 100 + 1)],
+    timesList: [],
+    values: [],
     Iter: 1,
     autoFill: true,
   },
@@ -121,7 +121,7 @@ function setTimelist2(date) {
     let Oldtime =
       old[i]["timesList"].length > 0
         ? old[i]["timesList"][old[i]["timesList"].length - 1]
-        : "00:00:00";
+        : old[i].startTime;
 
     // if (old[i].autoFill == true) {
     //   old[i]["values"][0] = Math.floor(Math.random() * 100 + 1);
@@ -136,19 +136,31 @@ function setTimelist2(date) {
       Oldtime =
         old[i]["timesList"].length > 0
           ? old[i]["timesList"][old[i]["timesList"].length - 1]
-          : "00:00:00";
+          : old[i].startTime;
       let hh = Oldtime[0] + Oldtime[1];
       let mm = Oldtime[3] + Oldtime[4];
       let ss = Oldtime[6] + Oldtime[7];
 
-      let future = moment()
-        .hour(hh)
-        .minute(mm)
-        .second(ss)
-        .add("hour", addTime[0] + addTime[1])
-        .add("minute", addTime[3] + addTime[4])
-        .add("second", addTime[6] + addTime[7])
-        .format("HH:mm:ss");
+      let future;
+      if (old[i]["timesList"].length == 0) {
+        future = moment()
+          .hour(hh)
+          .minute(mm)
+          .second(ss)
+          // .add("hour", addTime[0] + addTime[1])
+          // .add("minute", addTime[3] + addTime[4])
+          // .add("second", addTime[6] + addTime[7])
+          .format("HH:mm:ss");
+      } else {
+        future = moment()
+          .hour(hh)
+          .minute(mm)
+          .second(ss)
+          .add("hour", addTime[0] + addTime[1])
+          .add("minute", addTime[3] + addTime[4])
+          .add("second", addTime[6] + addTime[7])
+          .format("HH:mm:ss");
+      }
       // console.log(Oldtime)
       // console.log(addTime)
       // console.log("future time is ",future)
@@ -208,7 +220,7 @@ function middleOfTheNight() {
   setTimeout(function () {
     // let today = new Date();
 
-    for (let i = 0; i < 10000; i++) {
+    for (let i = 0; i < 7400; i++) {
       // date = '2022/01/01'
       setTimeout(() => {
         let date = new Date(2022, 0, 1);
