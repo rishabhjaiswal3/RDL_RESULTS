@@ -21,7 +21,7 @@ const Header = (props) => {
 
   const getShareUrl = () => {
     try {
-      const apiKey = "http://rdl-result.com/api";
+      const apiKey = "https://rdl-result.com/api";
       axios.get(apiKey + "/getSharingData").then((response) => {
         const data = response?.data;
         setCurrentURL(`${data.message} ${data.url}`);

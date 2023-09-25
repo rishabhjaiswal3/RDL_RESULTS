@@ -36,9 +36,9 @@ const City = ({ route }) => {
           </View>
         </View>
         <ScrollView>
-          {data.map((res) => {
+          {data.map((res, index) => {
             return (
-              <View style={styles.row}>
+              <View style={styles.row} key={index}>
                 <View style={styles.cell0}>
                   <Text style={styles.cellText}>{res[0]}</Text>
                 </View>
@@ -54,7 +54,7 @@ const City = ({ route }) => {
   };
 
   const getCardData = () => {
-    const apiKey = "http://rdl-result.com/api";
+    const apiKey = "https://rdl-result.com/api";
     console.log(
       "date before calling api ================================================",
       currentDate,

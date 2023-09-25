@@ -26,18 +26,27 @@
       "package": "com.rdlresult"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/icon.png"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "enableProguardInReleaseBuilds": true
+          }
+        }
+      ]
     ],
     "extra": {
       "router": {
         "origin": false
       },
       "eas": {
-        "projectId": "030ee54c-7ee7-4990-94f3-6ec97b7cae4b"
+        "projectId": "1fe64abc-ac78-4f45-b0cc-ac5f2bc7188e"
       }
-    }
+    },
+    "owner": "rdlresultsinfo"
   }
 }

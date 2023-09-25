@@ -9,7 +9,9 @@ function Login() {
   const apiKey = process.env.REACT_APP_URL;
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [isAuth,setIsAuth]  = useState(false);
+  const [isAuth,setIsAuth] = useState(false);
+  const [invalid,setInvalid] = useState(false);
+
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
   };
@@ -21,11 +23,13 @@ function Login() {
   const Login = async (email,password) => {
     axios.post(apiKey + "/login", {email,password }).then((response) => {
         console.log("my login data result is",response?.data?.user)
-        if(response?.data?.user){
-          setIsAuth(true);
+        if(response?.data?.user && response?.data?.jwt){
           localStorage.setItem('token',response?.data?.jwt)
+          setIsAuth(true);
         }
-        // console.log('my local storage is',localStorage.getItem('token'))
+        else{
+          setInvalid(true);
+        }
     })
   }
 
@@ -81,6 +85,10 @@ function Login() {
             Sign In
           </Button>
         </form>
+        {
+          invalid && 
+          <div style={{color:'red'}}>Please Enter Valid Credential</div>
+        }
       </Paper>
     </Container>
   );

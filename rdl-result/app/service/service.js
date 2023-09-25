@@ -22,7 +22,7 @@ export const getClientCurrentData = async (date) => {
 
 export const getShareUrl = async () => {
   try {
-    const apiKey = "http://rdl-result.com/api";
+    const apiKey = "https://rdl-result.com/api";
     axios.get(apiKey + "/getSharingData").then((response) => {
       return response?.data;
     });

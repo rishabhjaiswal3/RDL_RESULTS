@@ -16,6 +16,7 @@ const Dashboard = () => {
     const [data,setData] = useState([]);
     const [date,setDate] = useState(moment().format('YYYY/MM/DD'));
     const [seed, setSeed] = useState(1);
+    const [loginAgain,setLoginAgain] = useState(false)
     const reset = () => {
          setSeed(Math.random());
      }
@@ -35,6 +36,7 @@ const Dashboard = () => {
             setData(res?.data?.logs)
         })
         .catch((e)=>{
+            setLoginAgain(true);
             console.log("my error is",e);
         })
     },[date])
@@ -50,15 +52,21 @@ const Dashboard = () => {
                     'Content-Type': 'application/json',
                 }
             }
-            axios.post(apiKey+'/updateUpcomingResults',{'date':date,'token':token,'logs':data},config).then((res)=>{
-                console.log("my response is",res?.data);
-                setData(res?.data)
-                
-                console.log("my response of updaing data is",res);
-            })
-            .catch((e)=>{
-                console.log("my error is",e);
-            })
+            console.log("my d ata is",data)
+            if(data.length>0){
+                axios.post(apiKey+'/updateUpcomingResults',{'date':date,'token':token,'logs':data},config).then((res)=>{
+                    console.log("my response is",res?.data);
+                    setData(res?.data)
+                    
+                    console.log("my response of updaing data is",res);
+                })
+                .catch((e)=>{
+                    console.log("my error is",e);
+                })
+            }
+            else{
+                alert("please make some changes first");
+            }
         }
         catch(e){
             console.log("my error is",e)
