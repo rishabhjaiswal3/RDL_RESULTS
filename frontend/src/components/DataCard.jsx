@@ -20,7 +20,7 @@ const DataCard = ({data,img}) => {
 
   return (
     <Card sx={{ 
-      width: {sm:220,xs:154},
+      width: {sm:220,xs:158},
       height: {sm:200,xs:130}   
     }}>
     {
@@ -28,7 +28,7 @@ const DataCard = ({data,img}) => {
         <CardMedia
         style={{zIndex:'20',position:'absolute', filter: `hue-rotate(30deg)`}}
         sx={{
-         width: {sm:220,xs:154},
+         width: {sm:220,xs:158},
           height: {sm:200,xs:130}   
         }}
         image={img?.Url}
@@ -64,7 +64,7 @@ const DataCard = ({data,img}) => {
         Next Result: {convertTo12HourFormat(timeLists[timeLists.length-1])}
       </Typography>
     </CardContent>
-  </Card>
+    </Card>
   )
 }
 
