@@ -52,7 +52,7 @@ export function CustomDrawerContent({ navigation, items }) {
             style={{ color: "white" }}
             onPress={() => navigation.navigate("home")}
           >
-            rdlresultinfo@gmail.com
+            rdlresultcare@gmail.com
           </Text>
         </View>
       </View>
