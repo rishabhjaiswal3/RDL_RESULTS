@@ -36,7 +36,7 @@ function ResponsiveDrawer(props) {
                 RDL Result
             </Typography>
             <Typography>
-                rdlresultInfo@gmail.com
+              rdlresultcare@gmail.com
             </Typography>
         </div>
         </Toolbar>
