@@ -60,7 +60,7 @@ const Home = () => {
       <ResponsiveDrawer/>
 
       <Grid sx={{ ml: { md: `${drawerWidth}px`,sm:'0px' },minHeight:'100vh', width: { sm: `calc(100% - ${drawerWidth}px)`,xs:"100vw" } }} >
-        <Grid sx={{marginTop:"80px",ml:{sm:4,xs:0},paddingX:{sm:4,xs:1} }}>
+        <Grid sx={{marginTop:"60px",ml:{sm:4,xs:0},paddingX:{sm:4,xs:1} }}>
           <Typography
             variant="h6" // You can adjust the variant as needed
             sx={{
@@ -74,7 +74,7 @@ const Home = () => {
         </Grid>
         <Grid
           container
-          style={{height:'100%'}}
+          style={{height:'84%'}}
           sx={{
             background:"#007201",
           }} 
@@ -82,7 +82,7 @@ const Home = () => {
           {
               cardsData.length>0 && cardsData.map((data,index)=>{
                   return(
-                      <Grid xs={6} md={4} lg={4} style={{marginTop:0,display:'flex',alignItems:'center',justifyContent:'center',}}>
+                      <Grid xs={6} md={4} lg={4} style={{marginTop:0,display:'flex',alignItems:'center',justifyContent:'center'}}>
                           <DataCard data={data} img={images[index]}/>
                       </Grid>
                   )

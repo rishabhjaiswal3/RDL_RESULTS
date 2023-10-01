@@ -21,7 +21,8 @@ const DataCard = ({data,img}) => {
   return (
     <Card sx={{ 
       width: {sm:220,xs:158},
-      height: {sm:200,xs:130}   
+      height: {sm:200,xs:130},   
+      borderRadius:'2px'
     }}>
     {
       img?.Url &&
@@ -29,14 +30,15 @@ const DataCard = ({data,img}) => {
         style={{zIndex:'20',position:'absolute', filter: `hue-rotate(30deg)`}}
         sx={{
          width: {sm:220,xs:158},
-          height: {sm:200,xs:130}   
+          height: {sm:200,xs:130},
+          borderRadius:'2px'   
         }}
         image={img?.Url}
         title="green iguana"
       />
     }
     <CardContent sx={{
-      backgroundColor: "rgba(0, 0, 0, 0.2)",
+      backgroundColor: "rgba(0, 0, 0, 0.4)",
     display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'column',zIndex:'200',position:'relative',color:'white',height:{xs:'80px'}}}
       onClick={()=>{
         navigate('/result',{state:{
